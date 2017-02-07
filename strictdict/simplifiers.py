@@ -4,6 +4,7 @@ simpler format understood by undelying storage engine (ints, strings and
 dicts mostly) and transform them back (.deserialize()) to python objects, but
 perform no checks, so input is supposed to be valid
 """
+from __future__ import unicode_literals
 import datetime as dt
 import decimal
 

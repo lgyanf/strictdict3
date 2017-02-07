@@ -1,8 +1,12 @@
 """
 Validators check objects on asignment and do coercion if needed
 """
+from __future__ import unicode_literals
+
 import datetime as dt
 import decimal
+
+import six
 
 
 class ValidationError(Exception):
@@ -43,13 +47,13 @@ def SimpleTypeValidator(_type, error_classes=[ValueError]):
 
 
 def StringValidator(data):
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         return data
     raise ValidationError('Not a string')
 
 
 def StringIntValidator(data):
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         return data
     if isinstance(data, int):
         return str(data)
@@ -57,7 +61,7 @@ def StringIntValidator(data):
 
 
 def StringNumValidator(data):
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         return data
     is_num = (isinstance(data, int) or isinstance(data, float))
     if is_num:
@@ -76,7 +80,7 @@ def DecimalValidator(data):
 
 
 def CurrencyValidator(data):
-    if not isinstance(data, str):
+    if not isinstance(data, six.string_types):
         raise ValidationError('Not a string')
     if len(data) != 3:
         raise ValidationError(
@@ -87,7 +91,7 @@ def CurrencyValidator(data):
 def DateTimeValidator(data):
     if isinstance(data, dt.datetime):
         return data
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         try:
             return parse_datetime(data)
         except ValueError as e:
@@ -100,7 +104,7 @@ def DateValidator(data):
         return data.date()
     if isinstance(data, dt.date):
         return data
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         try:
             return parse_date(data)
         except ValueError as e:
@@ -111,7 +115,7 @@ def DateValidator(data):
 def TimeValidator(data):
     if isinstance(data, dt.time):
         return data
-    if isinstance(data, str):
+    if isinstance(data, six.string_types):
         try:
             return parse_time(data)
         except ValueError as e:
@@ -125,7 +129,7 @@ def TimeStampValidator(data):
             return dt.datetime.fromtimestamp(data)
         except (ValueError, TypeError) as exc:
             raise ValidationError('Not a timestamp [%s, %s]' % (data, exc,))
-    elif isinstance(data, str):
+    elif isinstance(data, six.string_types):
         try:
             return dt.datetime.fromtimestamp(float(data))
         except (ValueError, TypeError) as exc:

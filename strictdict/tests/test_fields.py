@@ -1,10 +1,15 @@
 # coding: utf-8
+from __future__ import unicode_literals
+
+import datetime as dt
+import time
 
 import pytest
-from ..validators import ValidationError
+import six
 from decimal import Decimal
-import datetime as dt
+
 from strictdict import fields as f
+from ..validators import ValidationError
 
 
 def test_string():
@@ -50,12 +55,20 @@ def test_date_with_z():
     assert result == dt.datetime(2013, 11, 18)
 
 
+if six.PY2:
+    def timestamp(datetime):
+        return time.mktime(datetime.timetuple()) + float(datetime.microsecond) / 10**6
+else:
+    def timestamp(datetime):
+        return datetime.timestamp()
+
+
 def test_timestamp():
     ff = f.TimeStamp()
     now = dt.datetime.now()
-    result = ff._validate(now.timestamp())
+    result = ff._validate(timestamp(now))
     assert result == now
-    result = ff._validate(int(now.timestamp()))
+    result = ff._validate(int(timestamp(now)))
     assert result == now.replace(microsecond=0)
     now_str = now.strftime('%Y-%m-%dT%H:%M:%S.%f')
     result = ff.deserialize(now_str)
@@ -63,5 +76,5 @@ def test_timestamp():
     now_str = now.strftime('%Y-%m-%dT%H:%M:%S')
     result = ff.deserialize(now_str)
     assert result == now.replace(microsecond=0)
-    result = ff.deserialize(now.timestamp())
+    result = ff.deserialize(timestamp(now))
     assert result == now

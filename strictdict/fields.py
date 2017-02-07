@@ -1,6 +1,10 @@
+from __future__ import unicode_literals
+
 import collections
-from ..validators import *
-from ..simplifiers import *
+import six
+
+from strictdict.validators import *
+from strictdict.simplifiers import *
 
 
 class Field(object):
@@ -84,7 +88,7 @@ class Bool(FieldAsIs):
     def _validate(self, data):
         if isinstance(data, (bool, int)):
             return bool(data)
-        if isinstance(data, str):
+        if isinstance(data, six.string_types):
             if data.lower() in ('false', '0'):
                 return False
             if data.lower() in ('true', '1'):

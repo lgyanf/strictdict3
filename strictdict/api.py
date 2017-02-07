@@ -1,5 +1,7 @@
-from .. import fields as f
-from ..strictbase import StrictDict
+from __future__ import unicode_literals
+
+from strictdict import fields as f
+from strictdict.strictbase import StrictDict
 
 
 def strict_field_helper(f_class, *args, **kwargs):

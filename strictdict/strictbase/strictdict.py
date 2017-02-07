@@ -1,8 +1,11 @@
+from __future__ import unicode_literals
+
 import abc
 import collections
 import copy
 import json
 import msgpack
+import six
 
 from ..validators import ValidationError
 from ..fields import ViewModelField, Field
@@ -76,7 +79,7 @@ class _StrictDictInterface(collections.MutableMapping):
         return hash(self.to_string(msg_pack=True))
 
 
-class StrictDict(_StrictDictInterface, metaclass=StrictDictMeta):
+class StrictDict(six.with_metaclass(StrictDictMeta, _StrictDictInterface)):
     """
     Provides dict interface with validation and serialization/deserialization
     """

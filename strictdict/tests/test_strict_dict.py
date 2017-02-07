@@ -3,6 +3,7 @@
 Test behaviour of StrictDict mega-class
 """
 
+from __future__ import unicode_literals
 import pytest
 
 from strictdict import StrictDict
@@ -38,7 +39,7 @@ def leg_data():
         'is_working': True,
         'is_cool': True,
         'number': 1,
-        'name': "Martha",
+        'name': 'Martha',
         'boot_color': 'blue',
         'boot_size': 37.5,
         'market_price': '123.45',
@@ -60,7 +61,7 @@ def centipede():
         ('date', '2013-07-08'),
         ('number', '-11'),
         ('boot_color', None),  # OK because boot_color is not required
-        ('name', u"Любимая нога дядюшки Лю"),
+        ('name', 'Любимая нога дядюшки Лю'),
         ('boot_size', '42.0'),
         ('market_price', 123.45),  # floats ok
         ('market_price', 100500),

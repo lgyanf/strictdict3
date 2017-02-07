@@ -40,6 +40,7 @@ setup(
     data_files=[],
     install_requires=[
         'msgpack-python==0.4.8',
+        'six==1.7.3',
     ],
     test_suite="strictdict.tests",
     platforms='any',
