@@ -9,7 +9,7 @@ import six
 from decimal import Decimal
 
 from strictdict import fields as f
-from ..validators import ValidationError
+from strictdict.validators import ValidationError
 
 
 def test_string():
